@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Deconstructor" basedir="." default="release">
+
+    <property file="build.properties"/>
+    <property name="robot.version" value="0.1"/>
+    <property name="robot.package" value="yttrium"/>
+    <property name="robot.path" value="yttrium"/>
+    <property name="robot.name" value="Deconstructor"/>
+
+    <path id="src.files">
+        <pathelement location="src"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="${bin.dir}"/>
+    </target>
+
+    <target name="compile" depends="init" description="Compiles source files">
+
+        <javac destdir="${bin.dir}" debug="on" debuglevel="lines,vars,source" optimize="yes" target="1.8" includeantruntime="false">
+            <src refid="src.files"/>
+
+            <classpath>
+                <pathelement location="${robocode.jar}"/>
+            </classpath>
+        </javac>
+
+    </target>
+
+    <target name="clean" description="Deletes all previous build artifacts">
+        <delete dir="${bin.dir}"/>
+    </target>
+
+    <target name="release" depends="clean, compile">
+        <copy todir="${bin.dir}">
+            <fileset dir="src"/>
+        </copy>
+
+        <echo file="${bin.dir}/${robot.path}/${robot.name}.properties">
+            robocode.version=1.9.2
+            robot.java.source.included=true
+            robot.version=${robot.version}
+            robot.author.name=Yurij Mikhalevich
+            robot.classname=${robot.package}.${robot.name}
+            robot.name=${robot.name}
+            robot.description=Deconstruction bot
+        </echo>
+
+        <jar destfile="${builds.dir}/${robot.package}.${robot.name}_${robot.version}.jar" compress="true">
+            <fileset dir="${bin.dir}"/>
+        </jar>
+
+        <copy todir="${robocode.dir}/robots/">
+            <fileset file="${builds.dir}/${robot.package}.${robot.name}_${robot.version}.jar"/>
+        </copy>
+
+        <delete includeEmptyDirs="true">
+            <fileset dir="${bin.dir}" includes="**/*"/>
+        </delete>
+
+    </target>
+
+</project>
