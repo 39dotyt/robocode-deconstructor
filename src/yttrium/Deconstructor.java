@@ -4,6 +4,7 @@ import robocode.AdvancedRobot;
 import robocode.DeathEvent;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
+import robocode.Rules;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -92,7 +93,7 @@ public class Deconstructor extends AdvancedRobot
     }
 
     private double getGunTurn(double firePower) {
-        final double ticks = enemy.distance / getBulletSpeed(firePower);
+        final double ticks = enemy.distance / Rules.getBulletSpeed(firePower);
         final double futureX = enemy.x + Math.sin(enemy.heading) * enemy.velocity * ticks;
         final double futureY = enemy.y + Math.cos(enemy.heading) * enemy.velocity * ticks;
         return Utils.normalRelativeAngle(angleTo(getX(), getY(), futureX, futureY) - getGunHeadingRadians());
@@ -100,9 +101,5 @@ public class Deconstructor extends AdvancedRobot
 
     private double getGunTurn() {
         return getGunTurn(2);
-    }
-
-    private double getBulletSpeed(double firePower) {
-        return 20 - (3 * firePower);
     }
 }
