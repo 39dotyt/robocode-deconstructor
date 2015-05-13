@@ -18,7 +18,7 @@
 
     <target name="compile" depends="init" description="Compiles source files">
 
-        <javac destdir="${bin.dir}" debug="on" debuglevel="lines,vars,source" optimize="yes" target="1.8" includeantruntime="false">
+        <javac destdir="${bin.dir}" debug="on" debuglevel="lines,vars,source" optimize="yes" target="1.6" includeantruntime="false">
             <src refid="src.files"/>
 
             <classpath>
