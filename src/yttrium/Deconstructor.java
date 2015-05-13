@@ -37,7 +37,7 @@ public class Deconstructor extends AdvancedRobot
                     setAhead(distance);
                 }
 
-                final double gunTurn = getGunTurn(2);
+                final double gunTurn = getGunTurn();
                 setTurnGunRightRadians(gunTurn);
                 shouldFire = true;
             }
@@ -92,9 +92,17 @@ public class Deconstructor extends AdvancedRobot
     }
 
     private double getGunTurn(double firePower) {
-        final double ticks = enemy.distance / (20 - (3 * firePower));
-        double futureX = enemy.x + Math.sin(enemy.heading) * enemy.velocity * ticks;
-        double futureY = enemy.y + Math.cos(enemy.heading) * enemy.velocity * ticks;
+        final double ticks = enemy.distance / getBulletSpeed(firePower);
+        final double futureX = enemy.x + Math.sin(enemy.heading) * enemy.velocity * ticks;
+        final double futureY = enemy.y + Math.cos(enemy.heading) * enemy.velocity * ticks;
         return Utils.normalRelativeAngle(angleTo(getX(), getY(), futureX, futureY) - getGunHeadingRadians());
+    }
+
+    private double getGunTurn() {
+        return getGunTurn(2);
+    }
+
+    private double getBulletSpeed(double firePower) {
+        return 20 - (3 * firePower);
     }
 }
